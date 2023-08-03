@@ -1,5 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { increaseCount, decreaseCount } from "./redux/actions/actionCreator.js";
+import {
+  increaseCount,
+  decreaseCount,
+  getLatestNews,
+} from "./redux/actions/actionCreator.js";
 
 const App = () => {
   const count = useSelector((store) => store?.counter?.count);
@@ -13,10 +17,15 @@ const App = () => {
     dispatch(decreaseCount());
   };
 
+  const handleNews = () => {
+    dispatch(getLatestNews());
+  };
+
   return (
     <>
       <button onClick={increase}>+</button>
       <button onClick={decrease}>-</button>
+      <button onClick={handleNews}>Get latest news</button>
       <h1>{count}</h1>
       <h1>React-redux-saga</h1>
     </>
