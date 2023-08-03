@@ -1,13 +1,16 @@
-import { SET_LATEST_NEWS } from "../constans";
+import { SET_LATEST_NEWS, SET_POPULAR_NEWS } from "../constans";
 
 const initiaState = {
   latestNews: [],
+  popularNews: [],
 };
 
 const news = (state = initiaState, { type, payload }) => {
   switch (type) {
     case SET_LATEST_NEWS:
-      return { ...state, latestNews: [...state.latestNews, payload] };
+      return { ...state, latestNews: [...state.latestNews, ...payload] };
+    case SET_POPULAR_NEWS:
+      return { ...state, popularNews: [...state.popularNews, ...payload] };
     default:
       return state;
   }
