@@ -1,6 +1,6 @@
 const Footer = () => (
   <footer>
-    <h3>Using redux-sag pattern</h3>
+    <h3>Using redux-saga pattern</h3>
   </footer>
 );
 
