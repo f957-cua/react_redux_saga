@@ -1,16 +1,29 @@
-import { takeEvery, put, call, fork } from "@redux-saga/core/effects";
+import { takeEvery, put, call, fork, spawn } from "@redux-saga/core/effects";
 import { GET_NEWS } from "../constans.js";
 import { getLatestNews, getPopularNews } from "../api/index.js";
-import { setLatestNews, setPopularNews } from "../actions/actionCreator.js";
+import {
+  setLatestNews,
+  setPopularNews,
+  setLatestNewsError,
+  setPopularNewsError,
+} from "../actions/actionCreator.js";
 
 function* handleLatestNews() {
-  const { hits } = yield call(getLatestNews, "react");
-  yield put(setLatestNews(hits));
+  try {
+    const { hits } = yield call(getLatestNews, "react");
+    yield put(setLatestNews(hits));
+  } catch (error) {
+    yield put(setLatestNewsError(error));
+  }
 }
 
 function* handlePopularNews() {
-  const { hits } = yield call(getPopularNews);
-  yield put(setPopularNews(hits));
+  try {
+    const { hits } = yield call(getPopularNews);
+    yield put(setPopularNews(hits));
+  } catch (error) {
+    yield put(setPopularNewsError(error));
+  }
 }
 
 function* handleNews() {
