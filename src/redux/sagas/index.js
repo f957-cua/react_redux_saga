@@ -1,6 +1,6 @@
-import { takeEvery, put, call, fork, spawn } from "@redux-saga/core/effects";
-import { GET_NEWS } from "../constans.js";
-import { getLatestNews, getPopularNews } from "../api/index.js";
+import { takeEvery, put, call, fork, all } from "@redux-saga/core/effects";
+import { GET_LATEST_NEWS, GET_POPULAR_NEWS } from "../constans.js";
+import { getLatestNewsAPI, getPopularNewsAPI } from "../api/index.js";
 import {
   setLatestNews,
   setPopularNews,
@@ -10,7 +10,7 @@ import {
 
 function* handleLatestNews() {
   try {
-    const { hits } = yield call(getLatestNews, "react");
+    const { hits } = yield call(getLatestNewsAPI, "react");
     yield put(setLatestNews(hits));
   } catch (error) {
     yield put(setLatestNewsError(error));
@@ -19,20 +19,23 @@ function* handleLatestNews() {
 
 function* handlePopularNews() {
   try {
-    const { hits } = yield call(getPopularNews);
+    const { hits } = yield call(getPopularNewsAPI);
     yield put(setPopularNews(hits));
   } catch (error) {
     yield put(setPopularNewsError(error));
   }
 }
 
-function* handleNews() {
-  yield fork(handleLatestNews);
-  yield fork(handlePopularNews);
+function* watchLatestSaga() {
+  yield takeEvery(GET_LATEST_NEWS, handleLatestNews);
+}
+
+function* watchPopularSaga() {
+  yield takeEvery(GET_POPULAR_NEWS, handlePopularNews);
 }
 
 function* watchClickSaga() {
-  yield takeEvery(GET_NEWS, handleNews);
+  yield all([fork(watchLatestSaga), fork(watchPopularSaga)]);
 }
 
 export default function* rootSaga() {

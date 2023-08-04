@@ -1,7 +1,8 @@
 import {
-  GET_NEWS,
+  GET_LATEST_NEWS,
   SET_LATEST_NEWS,
   SET_LATEST_NEWS_ERROR,
+  GET_POPULAR_NEWS,
   SET_POPULAR_NEWS,
   SET_POPULAR_NEWS_ERROR,
 } from "../constans.js";
@@ -26,7 +27,10 @@ export const setPopularNewsError = (payload) => ({
   payload,
 });
 
-export const getNews = (payload) => ({
-  type: GET_NEWS,
-  payload,
+export const getLatestNews = () => ({
+  type: GET_LATEST_NEWS,
+});
+
+export const getPopularNews = () => ({
+  type: GET_POPULAR_NEWS,
 });
